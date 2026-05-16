@@ -6,30 +6,30 @@ Monitors live traffic on a network interface and flags suspicious activity like 
 
 Built this as a learning project while studying network security. It's not a replacement for Snort or Suricata, but it works surprisingly well for a home lab and helped me understand how detection logic actually works at the packet level.
 
----
+\---
 
 ## What it detects
 
-| Threat | How |
-|---|---|
-| **Port Scan** | One IP touches 15+ distinct ports |
-| **SYN Flood** | 80+ SYN packets/sec from one source |
-| **SSH Brute Force** | 10+ rejected SSH connections in 30s |
-| **ICMP Flood** | 50+ ICMP packets/sec from one source |
+|Threat|How|
+|-|-|
+|**Port Scan**|One IP touches 15+ distinct ports|
+|**SYN Flood**|80+ SYN packets/sec from one source|
+|**SSH Brute Force**|10+ rejected SSH connections in 30s|
+|**ICMP Flood**|50+ ICMP packets/sec from one source|
 
----
+\---
 
 ## Requirements
 
-- Python 3.8+
-- Linux (tested on Ubuntu 22.04 and Kali)
-- `sudo` / root access (needed for raw packet capture)
+* Python 3.8+
+* Linux (tested on Ubuntu 22.04 and Kali)
+* `sudo` / root access (needed for raw packet capture)
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+\---
 
 ## Usage
 
@@ -50,18 +50,18 @@ sudo python3 netsentry.py -i eth0 --timeout 60
 python3 netsentry.py --help
 ```
 
----
+\---
 
 ## Sample output
 
 ```
-  [14:32:01] [HIGH]     PORT_SCAN      | src: 192.168.1.88  | 23 distinct ports probed
-  [14:32:04] [CRITICAL] SYN_FLOOD      | src: 10.0.0.5      | 94 SYN packets in 1s
-  [14:32:19] [HIGH]     SSH_BRUTE_FORCE| src: 192.168.1.102 | 12 failed attempts in 30s
+  \[14:32:01] \[HIGH]     PORT\_SCAN      | src: 192.168.1.88  | 23 distinct ports probed
+  \[14:32:04] \[CRITICAL] SYN\_FLOOD      | src: 10.0.0.5      | 94 SYN packets in 1s
+  \[14:32:19] \[HIGH]     SSH\_BRUTE\_FORCE| src: 192.168.1.102 | 12 failed attempts in 30s
   --- packets: 8,400 | alerts: 3 ---
 ```
 
----
+\---
 
 ## Project structure
 
@@ -77,39 +77,32 @@ NetSentry/
     └── alerts.log        # created when --log flag is used
 ```
 
----
+\---
 
 ## Tweaking thresholds
 
 All detection thresholds are at the top of `modules/rules.py`. If you're getting too many false positives or missing things, edit them there:
 
 ```python
-PORT_SCAN_THRESHOLD  = 15   # unique ports before flagging
-SYN_FLOOD_THRESHOLD  = 80   # SYN packets/sec
-SSH_BRUTE_THRESHOLD  = 10   # failed SSH attempts
-SSH_BRUTE_WINDOW     = 30   # seconds
-ICMP_FLOOD_THRESHOLD = 50   # ICMP packets/sec
+PORT\_SCAN\_THRESHOLD  = 15   # unique ports before flagging
+SYN\_FLOOD\_THRESHOLD  = 80   # SYN packets/sec
+SSH\_BRUTE\_THRESHOLD  = 10   # failed SSH attempts
+SSH\_BRUTE\_WINDOW     = 30   # seconds
+ICMP\_FLOOD\_THRESHOLD = 50   # ICMP packets/sec
 ```
 
----
+\---
 
-## Things I want to add later
-
-- [ ] Email/Telegram alert notifications
-- [ ] Auto-block IPs using `iptables` (optional flag)
-- [ ] Web dashboard to view live stats
-- [ ] PCAP file analysis mode (offline)
-- [ ] More rule types: DNS exfiltration, ARP spoofing
-
----
+\---
 
 ## Legal disclaimer
 
 Only use this on networks you own or have permission to monitor. Sniffing traffic on networks you don't have authorisation for is illegal in most countries.
 
----
+\---
 
 ## Author
 
-**Harish Dhake** — CS student, Pune  
+**Harish Dhake** — BCA student at Modern College Ganeshkhind, Pune  
 [GitHub](https://github.com/harishdhake) · [LinkedIn](https://linkedin.com/in/harishdhake) · [TryHackMe](https://tryhackme.com/p/harishdhake)
+
